@@ -1,0 +1,162 @@
+#include <Servo.h>
+
+Servo servoBase;
+Servo servoGancho;
+Servo servoIzquierda;
+Servo servoDerecha;
+int l=0;
+int dato_Serial;
+int gradoBase;
+int gradoGancho;
+int gradoIzquierda;
+int gradoDerecha;
+void setup() {
+  servoBase.attach(12);
+  servoGancho.attach(10);
+  servoIzquierda.attach(13);
+  servoDerecha.attach(11);
+  gradoBase=65;
+  gradoGancho = 0;
+  gradoIzquierda = 75;
+  gradoDerecha = 0;
+   servoBase.write(gradoBase);
+   servoGancho.write(gradoGancho);
+   servoIzquierda.write(gradoIzquierda);
+   servoDerecha.write(gradoDerecha);
+   Serial.begin(9600);
+}
+
+void loop() {
+   if (Serial.available()>0)
+      {
+        dato_Serial=Serial.read();
+        if(dato_Serial=='T')  {
+          //movimiento brazo hacia adelante y atras
+          if(dato_Serial=='T'){
+          do{
+          gradoDerecha = gradoDerecha+1 ;
+          servoDerecha.write(gradoDerecha);
+          l++;
+          delay(18);
+          }while(l<80);
+          if(dato_Serial=='T')  {
+            l=0;
+            do  {
+            gradoDerecha = gradoDerecha-1;
+            servoDerecha.write(gradoDerecha);
+            l++;
+            delay(18);
+            }while(l<80);
+          }
+          }
+          // movimiento de la base
+          if(dato_Serial=='T')
+            {
+            if(dato_Serial=='T'){
+            l=0;
+            do  {
+            gradoBase = gradoBase +1;
+            servoBase.write(gradoBase);
+            delay(20);
+            l++;
+            }while(l<70);
+            }
+           if(dato_Serial=='T')
+            {
+            l=0;
+            do  {
+            gradoBase = gradoBase -1;
+            servoBase.write(gradoBase);
+            delay(20);
+            l++;
+            }while(l<140);
+            }
+            if(dato_Serial=='T')
+            {
+            l=0;
+            do  {
+            gradoBase = gradoBase +1;
+            servoBase.write(gradoBase);
+            delay(20);
+            l++;
+            }while(l<70);
+            }
+            }
+            // moviento adelante
+            if(dato_Serial=='T')
+            {
+              l=0;
+             do {
+            gradoIzquierda = gradoIzquierda+2;
+            servoIzquierda.write(gradoIzquierda);
+            delay(18);
+            gradoDerecha = gradoDerecha+3 ;
+            servoDerecha.write(gradoDerecha);
+            delay(38);
+            l++;
+             }while(l<30);
+             delay(1000);
+             //gancho cierra
+             if(dato_Serial=='T')
+            {
+              l=0;
+            do{
+            gradoGancho = gradoGancho+1;
+            servoGancho.write(gradoGancho);
+            delay(5);
+            l++;
+            }while(l<10);
+            }
+            delay(500);
+            //moviendo hacia atras
+            if(dato_Serial=='T')
+              {
+              l=0;
+             do {
+            gradoIzquierda = gradoIzquierda-2;
+            servoIzquierda.write(gradoIzquierda);
+            delay(18);
+            gradoDerecha = gradoDerecha-3 ;
+            servoDerecha.write(gradoDerecha);
+            delay(38);
+            l++;
+             }while(l<30);
+             }
+            }
+            delay(1000);
+            //arriba y abajo
+            if(dato_Serial=='T')  {
+              l=0;
+              do  {
+              gradoIzquierda = gradoIzquierda-1;
+              servoIzquierda.write(gradoIzquierda);
+              delay(5);
+              l++;
+              }while(l<80);
+              delay(1000);
+              if(dato_Serial=='T')  {
+              l=0;
+              do  {
+              gradoIzquierda = gradoIzquierda+1;
+              servoIzquierda.write(gradoIzquierda);
+              delay(18);
+              l++;
+              }while(l<80);
+            }
+            }
+            delay(500);
+            //gancho abre
+            if(dato_Serial=='T')
+            {
+              l=0;
+            do{
+            gradoGancho = gradoGancho-1;
+            servoGancho.write(gradoGancho);
+            delay(5);
+            l++;
+            }while(l<15);
+            }
+            }
+            l=0;
+        }
+ }
